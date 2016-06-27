@@ -27,13 +27,13 @@ error_reporting(E_ALL ^ E_WARNING);
 			$pos = -1;
 			$max = -1;
 			for ($j=0; $j < $l2; $j++) { 
-				similar_text($firstArray[$i], $secondArray[$j], $perc);
+				similar_text($firstArray[$i]['title'] , $secondArray[$j]['title'], $perc);
 				if($perc > $max) {
 					$pos = $j;
 					$max = $perc;
 				}
 			}
-				$result[] = array($firstArray[$i], $secondArray[$pos], $max);
+				$result[] = array($firstArray[$i]['href'], $secondArray[$pos]['href'], $max);
 
 
 		}
@@ -53,15 +53,7 @@ error_reporting(E_ALL ^ E_WARNING);
   		echo readfile($filepath);
 	} 
 
-	function getHrefArray(&$array, $html){
-		$dom = new DOMDocument;
-		$dom->loadHTML($html);
-		$xpath = new DOMXPath($dom);
-		$nodes = $xpath->query('//a/@href');
-		foreach($nodes as $href) {
-		    array_push($array, $href->nodeValue);
-		}
-	}
+	require('helpers.php');
 
 	if(isset($_POST["firstSite"]) && isset($_POST["secondSite"])){
 		findAndCompare();
